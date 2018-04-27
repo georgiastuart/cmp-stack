@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.9)
+project(cmp_c_library C)
+find_package(MPI REQUIRED)
+set(CMAKE_C_STANDARD 11)
+
+add_library(cmp_c_library SHARED library.c library.h)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -W -Wall -Wextra -pedantic")
+set(CMAKE_C_COMPILE_FLAGS "${CMAKE_C_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS}")
+set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} ${MPI_LINK_FLAGS}")
+set(CMAKE_C_COMPILER ${MPI_C_COMPILER})
+include_directories(${MPI_C_INCLUDE_PATH})
+link_libraries(${MPI_C_LIBRARIES})
+target_link_libraries(cmp_c_library m)
