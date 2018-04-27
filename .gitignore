@@ -126,7 +126,7 @@ venv.bak/
 
 # CMake
 cmake-build-debug/
-cmake-build-release/
+# cmake-build-release/
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
@@ -207,3 +207,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+.idea
+cmake-build-debug
