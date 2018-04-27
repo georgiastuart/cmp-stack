@@ -1,0 +1,14 @@
+{
+    "parameters": {
+        "num_time_steps": 1500,
+        "delta_t": 0.004,
+        "num_receivers": 60,
+        "delta_offset": 50,
+        "min_offset": 262
+    },
+    "radon_parameters": {
+        "p_min": -6e-07,
+        "p_max": 6e-07,
+        "delta_p": 5e-09
+    }
+}

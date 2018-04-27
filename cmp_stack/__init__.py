@@ -1,1 +1,1 @@
-from cmp_stack.radon_transform import *
+from cmp_stack.radon_transform import RadonTransform
