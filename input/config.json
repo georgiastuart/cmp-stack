@@ -4,7 +4,13 @@
         "delta_t": 0.004,
         "num_receivers": 60,
         "delta_offset": 50,
-        "min_offset": 262
+        "min_offset": 262,
+        "seafloor": 50,
+        "num_gathers": 19
+    },
+    "nmo_parameters": {
+        "vnmo_file": "input/Vnmo.bin",
+        "tau_file": "input/tau.bin"
     },
     "radon_parameters": {
         "p_min": -6e-07,
