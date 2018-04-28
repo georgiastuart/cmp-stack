@@ -15,7 +15,9 @@ if __name__ == '__main__':
     data = data.reshape(config['parameters']['num_receivers'], config['parameters']['num_time_steps']).T
     flat_data = data.flatten()
 
-    plt.pcolormesh(data)
+    plt.pcolormesh(data, cmap='gray')
+    plt.gca().invert_yaxis()
+    plt.colorbar()
     plt.savefig('figures/data.png')
     plt.clf()
 
@@ -26,4 +28,11 @@ if __name__ == '__main__':
     plt.colorbar()
     plt.gca().invert_yaxis()
     plt.savefig('figures/radon_domain.png')
+    plt.clf()
+
+    plt.pcolormesh(rt.inverted_data, cmap='gray')
+    plt.colorbar()
+    plt.gca().invert_yaxis()
+    plt.savefig('figures/inverted_data.png')
+
 

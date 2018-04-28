@@ -7,11 +7,12 @@
 // Transforms a post-NMO CMP gather into the Radon Domain.
 void radon_transform(radon_parameters_t *params, const double *data, double *rad_domain_out)
 {
+    printf("Beginning Radon transform...\n");
     // Intermediate values for the Radon Transform
     double t0, time, p, offset, amp;
     int num_time_steps = params->num_time_steps;
     double max_time = (num_time_steps - 1) * params->delta_t;
-    int num_p = (int) ((params->p_max - params->p_min) / params->delta_p);
+    int num_p = params->num_p;
 
     // Ensures rad_domain_out is zeroed
     memset(rad_domain_out, 0, sizeof(double) * num_p * num_time_steps);
@@ -58,4 +59,5 @@ void radon_transform(radon_parameters_t *params, const double *data, double *rad
     gsl_interp_accel_free(acc);
     free(interp_temp_amp);
     free(t_values);
+    printf("Finished Radon transform\n");
 }

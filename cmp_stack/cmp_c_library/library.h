@@ -8,6 +8,7 @@ typedef struct radon_parameters
     int num_time_steps, num_receivers;
     double delta_t, delta_offset, min_offset;
     double p_min, p_max, delta_p;
+    int num_p;
 
 } radon_parameters_t;
 
