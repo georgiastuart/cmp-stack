@@ -8,13 +8,14 @@ from math import ceil
 
 class RadonTransform(Structure):
     _fields_ = [('num_time_steps', c_int), ('num_receivers', c_int), ('delta_t', c_double), ('delta_offset', c_double),
-                ('min_offset', c_double), ('p_min', c_double), ('p_max', c_double), ('delta_p', c_double),
+                ('min_offset', c_double), ('p_min', c_double), ('p_max', c_double), ('p_cutoff', c_double), ('delta_p', c_double),
                 ('num_p', c_int)]
 
-    def __init__(self, config):
+    def __init__(self, config, mode='all'):
         super().__init__()
         self._c_radon_transform = wrap_function('radon_transform', None, [POINTER(RadonTransform), POINTER(c_double),
-                                                                          POINTER(c_double)])
+                                                                          POINTER(c_double), c_int])
+        self.mode = mode
 
         self.num_time_steps = config['parameters']['num_time_steps']
         self.num_receivers = config['parameters']['num_receivers']
@@ -24,15 +25,28 @@ class RadonTransform(Structure):
 
         self.p_min = config['radon_parameters']['p_min']
         self.p_max = config['radon_parameters']['p_max']
+        self.p_cutoff = config['radon_parameters']['p_cutoff']
         self.delta_p = config['radon_parameters']['delta_p']
         self.num_p = ceil((self.p_max - self.p_min) / self.delta_p) + 1
+
+        if mode == 'all':
+            self.p_values = np.arange(self.p_min, self.p_max + self.delta_p, self.delta_p)
+            self.num_p = self.num_p
+        elif mode == 'primaries':
+            self.p_values = np.arange(self.p_min, self.p_cutoff + self.delta_p, self.delta_p)
+            self.num_p = len(self.p_values)
+        elif mode == 'multiples':
+            self.p_values = np.arange(self.p_cutoff, self.p_max + self.delta_p, self.delta_p)
+            self.num_p = len(self.p_values)
+            print(self.num_p)
+        else:
+            raise ValueError
 
         self._np_radon_domain_out = np.zeros(self.num_p * self.num_time_steps)
         self._radon_domain_out = self._np_radon_domain_out.ctypes.data_as(POINTER(c_double))
 
         self.offsets = np.arange(self.min_offset, self.min_offset + self.delta_offset * self.num_receivers,
                                  self.delta_offset)
-        self.p_values = np.arange(self.p_min, self.p_max + self.delta_p, self.delta_p)
         self.inverted_data = None
 
     def __call__(self, data):
@@ -40,10 +54,13 @@ class RadonTransform(Structure):
         self.inverse_radon_transform(data)
 
     def radon_transform(self, data):
+        data = data.flatten()
         _data = data.ctypes.data_as(POINTER(c_double))
-        self._c_radon_transform(self, _data, self._radon_domain_out)
+        mode_num = {'all': 0, 'primaries': 1, 'multiples': 2}
 
-    def inverse_radon_transform(self, data):
+        self._c_radon_transform(self, _data, self._radon_domain_out, mode_num[self.mode])
+
+    def inverse_radon_transform(self, data, mode='all'):
         num_freq = 2**(int(ceil(np.log2(self.num_time_steps)) + 1))
         delta_freq = 1 / self.delta_t
 

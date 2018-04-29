@@ -8,14 +8,13 @@ import sys
 _libdir = os.path.join(os.path.dirname(__file__), 'cmp_c_library/cmake-build-release')
 _libname = 'libcmp_c_library'
 
-# try:
-print(os.path.join(_libdir, "{}.so".format(_libname)))
-_lib = ctypes.CDLL(os.path.join(_libdir, "{}.so".format(_libname)))
-# except OSError:
-#     try:
-#         _lib = ctypes.CDLL(os.path.join(_libdir, "lib{}.dylib".format(_libname)))
-#     except OSError:
-#         sys.exit('Missing lib{0}.so or lib{0}.dylib'.format(_libname))
+try:
+    _lib = ctypes.CDLL(os.path.join(_libdir, "{}.so".format(_libname)))
+except OSError:
+    try:
+        _lib = ctypes.CDLL(os.path.join(_libdir, "lib{}.dylib".format(_libname)))
+    except OSError:
+        sys.exit('Missing lib{0}.so or lib{0}.dylib'.format(_libname))
 
 
 # Sets up MPI utilities

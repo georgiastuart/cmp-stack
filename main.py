@@ -1,70 +1,66 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import json
 import numpy as np
-from cmp_stack import RadonTransform, NormalMoveOut
+from cmp_stack import cmp_stack
 import matplotlib.pyplot as plt
 import h5py
+from mpi4py import MPI
 
-
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+master = rank == 0
+world_size = comm.Get_size()
 
 
 if __name__ == '__main__':
-    with open('input/config.json', 'r') as fp:
-        config = json.load(fp)
+
+    config = None
+    muted_data = None
+    gathers_per_rank = None
+
+    if master:
+        with open('input/config.json', 'r') as fp:
+            config = json.load(fp)
+
+    config = comm.bcast(config, root=0)
 
     num_gathers = config['parameters']['num_gathers']
+    num_time_steps = config['parameters']['num_time_steps']
 
-    nmo = NormalMoveOut(config)
+    if master:
+        with h5py.File('input/cmp1900_mute_gain.hdf5', 'r') as data_file:
+            gathers_per_rank = [num_gathers // world_size + int(i < num_gathers % world_size) for i in range(world_size)]
+            print(gathers_per_rank)
+            print(sum(gathers_per_rank))
 
-    with h5py.File('input/cmp1900_mute_gain.hdf5', 'r') as data_file:
+            muted_data = data_file['cmp_gathers'][:, :, :gathers_per_rank[0]]
 
-        muted_data = data_file['cmp_gathers'][:, :, 0]
-        # plt.pcolormesh(data_file['cmp_gathers'][:, :, 1899], vmin=-100, vmax=100, cmap='gray')
-        # plt.gca().invert_yaxis()
-        # plt.colorbar()
-        # plt.savefig('figures/one_cmp_1900.png')
-        # plt.clf()
+            for i in range(1, world_size):
+                temp_data = data_file['cmp_gathers'][:, :, sum(gathers_per_rank[:i]):sum(gathers_per_rank[:i+1])]
+                comm.send(temp_data, dest=i, tag=0)
 
-    nmo(muted_data)
+    if not master:
+        muted_data = comm.recv(source=0, tag=0)
 
-    plt.pcolormesh(nmo.data_nmo, vmin=-100, vmax=100, cmap='gray')
-    plt.gca().invert_yaxis()
-    plt.colorbar()
-    plt.savefig('figures/one_cmp_nmo.png')
-    plt.clf()
+    stack = cmp_stack(muted_data, config)
 
-    # cmp1_data = np.fromfile('input/1cmp_gather.bin', dtype='float32').astype('float64').reshape(nmo.num_receivers,
-    #                                                                                             nmo.num_time_steps).T
-    #
-    # plt.pcolormesh(cmp1_data, cmap='gray')
-    # plt.gca().invert_yaxis()
-    # plt.colorbar()
-    # plt.savefig('figures/cmp1.png')
-    # plt.clf()
+    if not master:
+        comm.send(stack, dest=0, tag=1)
 
+    if master:
+        full_stack = np.zeros((num_time_steps, num_gathers))
+        full_stack[:, :gathers_per_rank[0]] = stack
+        for i in range(1, world_size):
+            temp_stack = comm.recv(source=i, tag=1)
+            full_stack[:, sum(gathers_per_rank[:i]):sum(gathers_per_rank[:(i + 1)])] = temp_stack
 
-    # data = np.fromfile('input/CMP_nmo_mute.bin', dtype='float32')
-    # data = data.astype('float64')
-    # data = data.reshape(config['parameters']['num_receivers'], config['parameters']['num_time_steps']).T
-    # flat_data = data.flatten()
-    #
-    # plt.pcolormesh(data, cmap='gray')
-    # plt.gca().invert_yaxis()
-    # plt.colorbar()
-    # plt.savefig('figures/data.png')
-    # plt.clf()
-    #
-    rt = RadonTransform(config)
-    rt(nmo.data_nmo_flat)
+        np.savetxt('stack.txt', full_stack)
 
-    plt.pcolormesh(rt.radon_domain_out, vmin=-3500, vmax=3500, cmap='gray')
-    plt.colorbar()
-    plt.gca().invert_yaxis()
-    plt.savefig('figures/radon_domain.png')
-    plt.clf()
-
-    plt.pcolormesh(rt.inverted_data, cmap='gray')
-    plt.colorbar()
-    plt.gca().invert_yaxis()
-    plt.savefig('figures/inverted_data.png')
+        plt.pcolormesh(full_stack, cmap='gray')
+        plt.gca().invert_yaxis()
+        plt.colorbar()
+        plt.savefig('figures/stack_1900.png')
+        plt.clf()
 
 

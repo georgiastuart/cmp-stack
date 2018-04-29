@@ -5,14 +5,33 @@
 
 
 // Transforms a post-NMO CMP gather into the Radon Domain.
-void radon_transform(radon_parameters_t *params, const double *data, double *rad_domain_out)
+// if mode == 0, does full transform between p_max and p_min
+// if mode == 1, keeps primaries and discards multiples (keeps left of p_cutoff)
+// if mode == 2, keeps multiples and discards primaries (keeps right of p_cutoff)
+void radon_transform(radon_parameters_t *params, const double *data, double *rad_domain_out, int mode)
 {
-    printf("Beginning Radon transform...\n");
+
+//    printf("Beginning Radon transform...\n");
     // Intermediate values for the Radon Transform
     double t0, time, p, offset, amp;
+    double p_min, p_max;
     int num_time_steps = params->num_time_steps;
     double max_time = (num_time_steps - 1) * params->delta_t;
     int num_p = params->num_p;
+
+    switch (mode) {
+        case 1:
+            p_min = params->p_min;
+            p_max = params->p_cutoff;
+            break;
+        case 2:
+            p_min = params->p_cutoff;
+            p_max = params->p_max;
+            break;
+        default:
+            p_min = params->p_min;
+            p_max = params->p_max;
+    }
 
     // Ensures rad_domain_out is zeroed
     memset(rad_domain_out, 0, sizeof(double) * num_p * num_time_steps);
@@ -41,7 +60,7 @@ void radon_transform(radon_parameters_t *params, const double *data, double *rad
 
 
             for (int ip = 0; ip < num_p; ip++) {
-                p = params->p_min + params->delta_p * ip;
+                p = p_min + params->delta_p * ip;
                 time = t0 + p * offset * offset;
 
                 if (0 < time && time < max_time) {
@@ -59,5 +78,5 @@ void radon_transform(radon_parameters_t *params, const double *data, double *rad
     gsl_interp_accel_free(acc);
     free(interp_temp_amp);
     free(t_values);
-    printf("Finished Radon transform\n");
+//    printf("Finished Radon transform\n");
 }

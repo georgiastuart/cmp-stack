@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(cmp_c_library C)
 find_package(MPI REQUIRED)
+find_package(GSL REQUIRED)
 set(CMAKE_C_STANDARD 11)
 
 add_library(cmp_c_library SHARED library.c library.h)

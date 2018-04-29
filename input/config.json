@@ -6,7 +6,7 @@
         "delta_offset": 50,
         "min_offset": 262,
         "seafloor": 50,
-        "num_gathers": 19
+        "num_gathers": 1900
     },
     "nmo_parameters": {
         "vnmo_file": "input/Vnmo.bin",
@@ -15,6 +15,7 @@
     "radon_parameters": {
         "p_min": -6e-07,
         "p_max": 6e-07,
+        "p_cutoff": 3e-08,
         "delta_p": 5e-09
     }
 }

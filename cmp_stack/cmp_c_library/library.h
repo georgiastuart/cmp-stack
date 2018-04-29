@@ -7,11 +7,11 @@ typedef struct radon_parameters
 {
     int num_time_steps, num_receivers;
     double delta_t, delta_offset, min_offset;
-    double p_min, p_max, delta_p;
+    double p_min, p_max, p_cutoff, delta_p;
     int num_p;
 
 } radon_parameters_t;
 
-void radon_transform(radon_parameters_t *params, const double *data, double *rad_domain_out);
+void radon_transform(radon_parameters_t *params, const double *data, double *rad_domain_out, int mode);
 
 #endif

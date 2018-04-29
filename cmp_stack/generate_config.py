@@ -15,6 +15,7 @@ def generate_config():
 
     radon_parameters = {'p_min': -6.0e-7,
                         'p_max': 6.0e-7,
+                        'p_cutoff': 2.0e-8,
                         'delta_p': 5.0e-9}
 
     return {'parameters': parameters, 'nmo_parameters': nmo_parameters, 'radon_parameters': radon_parameters}
