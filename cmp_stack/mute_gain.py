@@ -3,6 +3,19 @@ from scipy.interpolate import UnivariateSpline
 
 
 def gain(data, config, gain_power=2):
+    """
+    Gains data with a t^gain_power gain function.
+
+    Parameters
+    ----------
+    data : Numpy array
+        CMP Gather to gain
+    config : dict
+        Config dictionary as specified in generate_config.py
+    gain_power : float
+        power to raise time to for the gain
+
+    """
     num_time_steps = config['parameters']['num_time_steps']
     delta_t = config['parameters']['delta_t']
 

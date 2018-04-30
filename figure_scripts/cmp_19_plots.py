@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 import h5py
-from cmp_stack import gain, Mute, NormalMoveOut, RadonTransform, interpolate_missing_data
+from cmp_stack import gain, Mute, NormalMoveOut, RadonTransform
 
 
 def plot_gathers(data_tensor, num_ts, num_cmp_gathers, num_recs, title):
@@ -52,12 +52,6 @@ if __name__ == '__main__':
 
     fig, ax = plot_gathers(data, num_time_steps, num_gathers, num_receivers, 'CMP Gathers after t^2 Gain')
     fig.savefig('figures/cmp9_gained.png')
-
-    for i in range(num_gathers):
-        interpolate_missing_data(data[:, :, i])
-
-    fig, ax = plot_gathers(data, num_time_steps, num_gathers, num_receivers, 'CMP Gathers after t^2 Gain')
-    fig.savefig('figures/cmp9_interpolated.png')
 
     mute = Mute(config, mute_type='hyperbola')
 

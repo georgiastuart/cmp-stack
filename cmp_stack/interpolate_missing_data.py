@@ -22,11 +22,5 @@ def interpolate_missing_data(cmp_gather):
         interp_func = interp2d(np.delete(offsets, zero_receiver_indices), times,
                                np.delete(cmp_gather, zero_receiver_indices, axis=1), kind='cubic')
         cmp_gather[:, zero_receiver_indices] = interp_func(offsets[zero_receiver_indices], times)
-    # for i in range(num_time_steps):
-    #     try:
-    #         interp_func = interp1d(offsets[cmp_gather[i, :] != 0], cmp_gather[i, cmp_gather[i, :] != 0], kind='cubic')
-    #         cmp_gather[i, cmp_gather[i, :] == 0] = interp_func(offsets[cmp_gather[i, :] == 0])
-    #     except ValueError:
-    #         pass
 
 

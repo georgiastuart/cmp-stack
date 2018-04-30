@@ -13,5 +13,13 @@ mpich
 libgsl23
 libgsl-dev
 
+You also need the following python packages
+python 3.5 or greater
+numpy
+scipy
+matplotlib
+h5py
+mpi4py
+
 run compile_library.sh from the cmp-stack folder to compile.
 
