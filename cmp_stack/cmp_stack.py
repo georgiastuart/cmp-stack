@@ -1,4 +1,4 @@
-from cmp_stack import RadonTransform, NormalMoveOut, mute
+from cmp_stack import RadonTransform, NormalMoveOut, Mute
 from cmp_stack.utilities import master
 import numpy as np
 
@@ -11,9 +11,10 @@ def stack(data):
 
 
 # Assumes data is in 3D numpy array
-def cmp_stack(data, config, mode='multiples'):
+def cmp_stack(data, config, velocity, mode='multiples'):
     nmo = NormalMoveOut(config)
     radon_transform = RadonTransform(config, mode=mode)
+    mute = Mute(config)
 
     num_time_steps = data.shape[0]
     num_receivers = data.shape[1]
@@ -25,16 +26,18 @@ def cmp_stack(data, config, mode='multiples'):
         if master:
             print('Running stack {}...'.format(i), flush=True)
         data_slice = data[:, :, i]
-        nmo(data_slice)
-        mute(nmo.data_nmo, config)
+        nmo(data_slice, velocity[:, i])
+        mute.mute(nmo.data_nmo)
         radon_transform(nmo.data_nmo)
 
         if mode == 'multiples':
             diff = nmo.data_nmo - radon_transform.inverted_data
         elif mode == 'primaries':
             diff = radon_transform.inverted_data
+        else:
+            raise AttributeError
 
-        mute(diff, config)
+        mute.mute(diff, taper=False)
         stack_section[:, i] = stack(diff)
 
     return stack_section

@@ -30,9 +30,9 @@ class NormalMoveOut(Structure):
         self.t_values = np.linspace(0, self.delta_t * self.num_time_steps, self.num_time_steps)
 
         # Interpolates vnmo from a selection of vnmo-tau pairs from semblance analysis
-        vnmo = np.fromfile(config['nmo_parameters']['vnmo_file'], dtype='float32').astype('float64')
-        vnmo_tau = np.fromfile(config['nmo_parameters']['tau_file'], dtype='float32').astype('float64')
-        self._np_vnmo_interp = np.interp(self.t_values, vnmo_tau, vnmo)
+        # vnmo = np.loadtxt(config['nmo_parameters']['vnmo_file'])
+        # vnmo_tau = np.loadtxt(config['nmo_parameters']['tau_file'])
+        self._np_vnmo_interp = np.zeros(len(self.t_values))
         self.vnmo_interp = self._np_vnmo_interp.ctypes.data_as(POINTER(c_double))
 
         self._np_data_nmo = np.zeros(self.num_time_steps * self.num_receivers)
@@ -43,16 +43,19 @@ class NormalMoveOut(Structure):
         self._c_nmo = wrap_function('normal_move_out', None, [POINTER(NormalMoveOut), POINTER(c_double),
                                                               POINTER(c_double)])
 
-    def __call__(self, data):
+    def __call__(self, data, velocity):
         """
         Applies normal move out to the input data
 
         Parameters
         ----------
-        data : np.ndarray
+        data : Numpy array
             CMP gather to apply normal move out to
+        velocity : Numpy array
+            The velocity for NMO. Must be the same length as the 0 axis (time) of data.
         """
         data = data.flatten()
+        self._np_vnmo_interp[:] = velocity
         _data = data.ctypes.data_as(POINTER(c_double))
         self._c_nmo(self, _data, self._data_nmo)
 

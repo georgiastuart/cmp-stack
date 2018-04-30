@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import h5py
 import json
-from cmp_stack import NormalMoveOut, mute, RadonTransform
+from cmp_stack import NormalMoveOut, Mute, RadonTransform
 
 if __name__ == '__main__':
     gather_num = 1599
@@ -13,28 +13,34 @@ if __name__ == '__main__':
     with h5py.File('input/cmp1900_mute_gain.hdf5', 'r') as fp:
         cmp_gather = fp['cmp_gathers'][:, :, gather_num]
 
+    velocity = np.fromfile(config['nmo_parameters']['vnmo_file'], dtype='float32').astype('float64')
+    velocity = velocity.reshape((config['parameters']['num_gathers'], config['parameters']['num_time_steps'])).T
+    velocity = velocity[:, gather_num]
+
     min_offset = config['parameters']['min_offset']
     delta_offset = config['parameters']['delta_offset']
     delta_t = config['parameters']['delta_t']
 
     nmo = NormalMoveOut(config)
-    nmo(cmp_gather)
+    nmo(cmp_gather, velocity)
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, sharex=True, sharey=True, figsize=(15, 8))
 
     ax1.pcolormesh(nmo.data_nmo, vmin=-400, vmax=400, cmap='gray')
     ax1.set_xticklabels((ax1.get_xticks() * delta_offset + min_offset).astype('int_'))
     ax1.set_yticklabels(np.round(ax1.get_yticks() * delta_t, 1))
+    ax1.set_ylim(0, 1499)
     ax1.set_xlabel('Offset (m)')
     ax1.set_ylabel('Time (s)')
     ax1.set_title('After NMO')
     ax1.invert_yaxis()
 
     muted_data = np.copy(nmo.data_nmo)
-    mute_line = mute(muted_data, config)
+    mute = Mute(config, mute_type='spline')
+    mute.mute(muted_data)
 
     ax2.pcolormesh(nmo.data_nmo, vmin=-400, vmax=400, cmap='gray')
-    ax2.plot((mute_line - config['mute_gain_parameters']['taper_length']) / delta_t, zorder=1, color='red')
+    ax2.plot(mute.mute_line / delta_t, zorder=1, color='red')
     ax2.set_title('Mute Line')
     ax2.set_xlabel('Offset (m)')
 
@@ -106,20 +112,21 @@ if __name__ == '__main__':
     fig.savefig('figures/radon_inverted.png', dpi=300)
 
     diff = muted_data - mult_inverted
-    mute_line = mute(diff, config)
+    mute.mute(diff, taper=False)
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, sharex=True, sharey=True, figsize=(15, 8))
 
     ax1.pcolormesh(muted_data - mult_inverted, vmin=-400, vmax=400, cmap='gray')
     ax1.set_xticklabels((ax1.get_xticks() * delta_offset + min_offset).astype('int_'))
     ax1.set_yticklabels(np.round(ax1.get_yticks() * delta_t, 1))
+    ax1.set_ylim(0, 1499)
     ax1.set_xlabel('Offset (m)')
     ax1.set_ylabel('Time (s)')
     ax1.set_title('Multiples Suppressed')
     ax1.invert_yaxis()
 
     ax2.pcolormesh(muted_data - mult_inverted, vmin=-400, vmax=400, cmap='gray')
-    ax2.plot((mute_line - config['mute_gain_parameters']['taper_length']) / delta_t, zorder=1, color='red')
+    ax2.plot(mute.mute_line / delta_t, zorder=1, color='red')
     ax2.set_title('Mute Line')
     ax2.set_xlabel('Offset (m)')
 
