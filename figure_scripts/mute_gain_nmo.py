@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     muted_data = np.copy(nmo.data_nmo)
     mute = Mute(config, mute_type='spline')
-    mute.mute(muted_data)
+    mute.__call__(muted_data)
 
     ax2.pcolormesh(nmo.data_nmo, vmin=-400, vmax=400, cmap='gray')
     ax2.plot(mute.mute_line / delta_t, zorder=1, color='red')
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     fig.savefig('figures/radon_inverted.png', dpi=300)
 
     diff = muted_data - mult_inverted
-    mute.mute(diff, taper=False)
+    mute.__call__(diff, taper=False)
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, sharex=True, sharey=True, figsize=(15, 8))
 

@@ -4,14 +4,40 @@ import numpy as np
 
 
 def stack(data):
+    """ Stacks a treated CMP gather
+    Parameters
+    ----------
+    data : Numpy array
+        A post-treatment CMP gather with axis 0 time and axis 1 offset
+    """
     num_nonzero = (data != 0).sum(axis=1)
     num_nonzero[num_nonzero == 0] = 1
     vec = np.sum(data, axis=1) / num_nonzero
     return vec
 
 
-# Assumes data is in 3D numpy array
 def cmp_stack(data, config, velocity, mode='multiples'):
+    """ Creates a CMP  Stack Section.
+    1. Compute Normal Move Out for each gather using the velocity profiles provided
+    2. Mutes the data via spline interpolation with a cosine taper
+    3. Models either primaries or multiples with a Radon transform
+    4. Mute the data via spline interpolation with no taper
+    5. Stacks the treated data into a stack section
+
+    Parameters
+    ----------
+    data : Numpy array
+        An array of CMP gathers with axes (time, offset, gather).
+        Assumes the direct wave has already been muted
+    config : dict
+            Config dictionary as specified in generate_config.py
+    velocity : Numpy array
+        An array of velocity profiles for each CMP gather. Axes are (time, gather)
+    mode : str
+        Whether to generate the CMP stack by modeling multiples and subtracting ('multiples') or
+        by modeling primary reflections ('primaries')
+    """
+
     nmo = NormalMoveOut(config)
     radon_transform = RadonTransform(config, mode=mode)
     mute = Mute(config)
@@ -27,7 +53,7 @@ def cmp_stack(data, config, velocity, mode='multiples'):
             print('Running stack {}...'.format(i), flush=True)
         data_slice = data[:, :, i]
         nmo(data_slice, velocity[:, i])
-        mute.mute(nmo.data_nmo)
+        mute(nmo.data_nmo)
         radon_transform(nmo.data_nmo)
 
         if mode == 'multiples':
@@ -37,7 +63,7 @@ def cmp_stack(data, config, velocity, mode='multiples'):
         else:
             raise AttributeError
 
-        mute.mute(diff, taper=False)
+        mute(diff, taper=False)
         stack_section[:, i] = stack(diff)
 
     return stack_section

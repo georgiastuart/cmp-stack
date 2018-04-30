@@ -74,7 +74,7 @@ if __name__ == '__main__':
             print('Gather: {}'.format(i), flush=True)
         cmp_gather = muted_data[:, :, i]
         nmo(cmp_gather, velocity[:, i])
-        mute.mute(nmo.data_nmo, taper=False)
+        mute.__call__(nmo.data_nmo, taper=False)
 
         stack_section[:, i] = stack(nmo.data_nmo)
 

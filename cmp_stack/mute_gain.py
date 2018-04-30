@@ -2,6 +2,17 @@ import numpy as np
 from scipy.interpolate import UnivariateSpline
 
 
+def gain(data, config, gain_power=2):
+    num_time_steps = config['parameters']['num_time_steps']
+    delta_t = config['parameters']['delta_t']
+
+    gain_coef = np.arange(0, num_time_steps * delta_t, delta_t)**gain_power
+
+    gained_data = (data.T * gain_coef).T
+
+    return gained_data
+
+
 class Mute:
     def __init__(self, config, mute_type='spline'):
         """ Initializes a Mute object
@@ -42,7 +53,7 @@ class Mute:
         else:
             raise AttributeError
 
-    def mute(self, data, taper=True):
+    def __call__(self, data, taper=True):
         """ Mutes a CMP gather with an optional cosine taper
 
         Parameters

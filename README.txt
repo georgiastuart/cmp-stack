@@ -1,3 +1,8 @@
+By Li Ren, Mengli Zhang, and Georgia Stuart
+April 2018
+Exploration Seismology with David Lumley
+
+
 Before using this package, you must compile the cmp_c_library .so/.dylib file
 
 Requires Cmake (greater than version 3.9), MPI, and GSL/development headers
@@ -9,3 +14,4 @@ libgsl23
 libgsl-dev
 
 run compile_library.sh from the cmp-stack folder to compile.
+
