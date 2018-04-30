@@ -2,6 +2,7 @@ import json
 
 
 def generate_config():
+    """ Generates a new config file from defaults """
     parameters = {'num_time_steps': 1500,
                   'delta_t': 0.004,
                   'num_receivers': 60,
@@ -18,7 +19,12 @@ def generate_config():
                         'p_cutoff': 2.0e-8,
                         'delta_p': 5.0e-9}
 
-    return {'parameters': parameters, 'nmo_parameters': nmo_parameters, 'radon_parameters': radon_parameters}
+    mute_gain_parameters = {'taper_length': 0.5,
+                            'first_arrival': 0.52,
+                            'gain_exponent': 2}
+
+    return {'parameters': parameters, 'nmo_parameters': nmo_parameters, 'radon_parameters': radon_parameters,
+            'mute_gain_parameters': mute_gain_parameters}
 
 
 if __name__ == '__main__':

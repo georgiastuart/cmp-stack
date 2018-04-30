@@ -12,6 +12,15 @@ typedef struct radon_parameters
 
 } radon_parameters_t;
 
+typedef struct nmo_parameters
+{
+    int num_time_steps, num_receivers;
+    double delta_t, delta_offset, min_offset;
+    int seafloor;
+    double *vnmo_interp;
+} nmo_parameters_t;
+
 void radon_transform(radon_parameters_t *params, const double *data, double *rad_domain_out, int mode);
+void normal_move_out(nmo_parameters_t *params, const double *data, double *nmo_data);
 
 #endif

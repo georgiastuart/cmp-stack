@@ -4,21 +4,20 @@ import os
 import sys
 
 # Sets up ctypes library
-
 _libdir = os.path.join(os.path.dirname(__file__), 'cmp_c_library/cmake-build-release')
 _libname = 'libcmp_c_library'
 
+# Reads in the .so or .dylib file
 try:
     _lib = ctypes.CDLL(os.path.join(_libdir, "{}.so".format(_libname)))
 except OSError:
     try:
-        _lib = ctypes.CDLL(os.path.join(_libdir, "lib{}.dylib".format(_libname)))
+        _lib = ctypes.CDLL(os.path.join(_libdir, "{}.dylib".format(_libname)))
     except OSError:
-        sys.exit('Missing lib{0}.so or lib{0}.dylib'.format(_libname))
+        sys.exit('Missing {0}.so or {0}.dylib'.format(_libname))
 
 
 # Sets up MPI utilities
-
 if MPI._sizeof(MPI.Comm) == ctypes.sizeof(ctypes.c_int):
     MPI_Comm = ctypes.c_int
 else:

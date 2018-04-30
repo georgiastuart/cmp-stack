@@ -3,6 +3,8 @@ import numpy as np
 import json
 
 if __name__ == '__main__':
+    # Converts the unwieldy binaries into nicer hdf5 files
+
     with open('input/config.json', 'r') as fp:
         config = json.load(fp)
 

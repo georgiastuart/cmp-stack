@@ -15,7 +15,12 @@
     "radon_parameters": {
         "p_min": -6e-07,
         "p_max": 6e-07,
-        "p_cutoff": 3e-08,
+        "p_cutoff": 2e-08,
         "delta_p": 5e-09
+    },
+    "mute_gain_parameters": {
+        "taper_length": 0.25,
+        "first_arrival": 0.52,
+        "gain_exponent": 2
     }
 }

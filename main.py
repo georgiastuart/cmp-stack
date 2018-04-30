@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import json
@@ -43,7 +45,7 @@ if __name__ == '__main__':
     if not master:
         muted_data = comm.recv(source=0, tag=0)
 
-    stack = cmp_stack(muted_data, config)
+    stack = cmp_stack(muted_data, config, mode='primaries')
 
     if not master:
         comm.send(stack, dest=0, tag=1)
@@ -55,12 +57,16 @@ if __name__ == '__main__':
             temp_stack = comm.recv(source=i, tag=1)
             full_stack[:, sum(gathers_per_rank[:i]):sum(gathers_per_rank[:(i + 1)])] = temp_stack
 
-        np.savetxt('stack.txt', full_stack)
+        full_stack.tofile('intermediate_data/final_stack.bin')
 
-        plt.pcolormesh(full_stack, cmap='gray')
-        plt.gca().invert_yaxis()
-        plt.colorbar()
-        plt.savefig('figures/stack_1900.png')
-        plt.clf()
+        fig, ax = plt.subplots(1, figsize=(15, 8))
+        data_max = np.max(full_stack)
+        data_min = np.min(full_stack)
+        clip = 0.09
+        ax.pcolormesh(full_stack, vmin=data_min * clip, vmax=data_max * clip, cmap='gray')
+
+        ax.invert_yaxis()
+
+        fig.savefig('figures/primaries_stack_1900.png', dpi=300)
 
 
