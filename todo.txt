@@ -1,0 +1,10 @@
+CMP gathers for the 19 (I can make this)
+Figure showing initial mute line on one cmp gather next to the muted gather
+Semblance picture showing chosen vnmo points
+NMO of the cmp gather in 1, second mute line, post second mute
+19 CMP gathers after NMO and mutes (I can make this)
+Radon transform of one cmp gather, diff of data and multiples, modeled primaries, modeled multiples (I can make this)
+19 CMP after multiple suppression (I can make this)
+Stack section using diff of data and multiples (I can make this)
+Stack section using modeled primaries (I can make this)
+Stack section without multiple suppression
