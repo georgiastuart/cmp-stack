@@ -6,6 +6,12 @@ from ctypes import c_int, c_double, POINTER, Structure
 class NormalMoveOut(Structure):
     """ Serves as both an object to run normal move out
     and a nmo_params_t struct as specified in cmp_c_library/library.h
+
+
+    Parameters
+    ----------
+    config : dict
+        Config dictionary as specified in generate_config.py
     """
     _fields_ = [('num_time_steps', c_int), ('num_receivers', c_int), ('delta_t', c_double), ('delta_offset', c_double),
                 ('min_offset', c_double), ('seafloor', c_int), ('vnmo_interp', POINTER(c_double))]
@@ -13,10 +19,6 @@ class NormalMoveOut(Structure):
     def __init__(self, config):
         """ Initializes a NormalMoveOut object
 
-        Parameters
-        ----------
-        config : dict
-            Config dictionary as specified in generate_config.py
         """
 
         super().__init__()

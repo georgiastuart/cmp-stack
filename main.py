@@ -89,6 +89,6 @@ if __name__ == '__main__':
         ax.set_ylabel('Time (s)')
         ax.set_title('CMP Stack with {}'.format(title_dict[mode].title()))
 
-        fig.savefig('figures/{}_stack_1900.png'.format(fname_dict[mode]), dpi=300)
+        fig.savefig('figures/{}_stack_1900.png'.format(fname_dict[mode]))
 
 

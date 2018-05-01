@@ -3,8 +3,7 @@ from scipy.interpolate import UnivariateSpline
 
 
 def gain(data, config, gain_power=2):
-    """
-    Gains data with a t^gain_power gain function.
+    """Gains data with a :math:`t^{p}` gain function.
 
     Parameters
     ----------
@@ -13,7 +12,7 @@ def gain(data, config, gain_power=2):
     config : dict
         Config dictionary as specified in generate_config.py
     gain_power : float
-        power to raise time to for the gain
+        power, :math:`p`, to raise time to for the gain
 
     """
     num_time_steps = config['parameters']['num_time_steps']
@@ -27,16 +26,17 @@ def gain(data, config, gain_power=2):
 
 
 class Mute:
-    def __init__(self, config, mute_type='spline'):
-        """ Initializes a Mute object
+    """ Creates a mute to apply to CMP gathers
 
-        Parameters
-        ----------
-        config : dict
-            Config dictionary as specified in generate_config.py
-        mute_type : str
-            Whether to use a spline interpolation mute or a hyperbola mute. Options: 'hyperbola', 'spline' (default)
-        """
+    Parameters
+    ----------
+    config : dict
+        Config dictionary as specified in generate_config.py
+    mute_type : str
+        Whether to use a spline interpolation mute or a hyperbola mute. Options: 'hyperbola', 'spline' (default)
+    """
+    def __init__(self, config, mute_type='spline'):
+
         self.taper_length = config['mute_gain_parameters']['taper_length']
         self.delta_t = config['parameters']['delta_t']
         self.offset = config['parameters']['min_offset']
@@ -71,7 +71,7 @@ class Mute:
 
         Parameters
         ----------
-        data : Numpy NDArray
+        data : Numpy array
             CMP gather to mute
         taper : bool
             Whether or not to taper the mute (default - True)

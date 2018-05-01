@@ -8,6 +8,15 @@ from math import ceil
 class RadonTransform(Structure):
     """ Serves as both an object to run the radon transform and inverse radon transform
         and a radon_params_t struct as specified in cmp_c_library/library.h
+
+        Parameters
+        ----------
+        config : dict
+            Config dictionary as specified in generate_config.py
+        mode : str
+            Whether to apply the transform to the whole domain, multiples, or primaries ('all', 'multiples', 'primaries).
+            Multiples are defined as the region of the radon domain to the right of p_cutoff. Primaries are defined as
+            the region of the radon domain to the left of p_cutoff.
         """
     _fields_ = [('num_time_steps', c_int), ('num_receivers', c_int), ('delta_t', c_double), ('delta_offset', c_double),
                 ('min_offset', c_double), ('p_min', c_double), ('p_max', c_double), ('p_cutoff', c_double), ('delta_p', c_double),
@@ -15,10 +24,6 @@ class RadonTransform(Structure):
 
     def __init__(self, config, mode='all'):
         """ Initializes a RadonTransform object
-        Parameters
-        ----------
-        config : dict
-            Config dictionary as specified in generate_config.py
         """
 
         super().__init__()
@@ -68,7 +73,7 @@ class RadonTransform(Structure):
 
         Parameters
         ----------
-        data : np.ndarray
+        data : Numpy array
             CMP gather (after NMO) to apply normal move out to
         """
         self.radon_transform(data)
@@ -80,7 +85,7 @@ class RadonTransform(Structure):
 
         Parameters
         ----------
-        data : np.ndarray
+        data : Numpy array
             CMP gather (after NMO) to apply normal move out to
         """
         data = data.flatten()
@@ -95,7 +100,7 @@ class RadonTransform(Structure):
 
         Parameters
         ----------
-        data : np.ndarray
+        data : Numpy array
             The pre-Radon transform data, for computing the scale factor
         """
         num_freq = 2**(int(ceil(np.log2(self.num_time_steps)) + 1))
@@ -127,5 +132,5 @@ class RadonTransform(Structure):
 
     @property
     def radon_domain_out(self):
-        """ Reshapes the flat Radon Transform Out array """
+        """Property. Reshapes the flat Radon Transform Out array """
         return self._np_radon_domain_out.reshape((self.num_time_steps, self.num_p))

@@ -108,4 +108,4 @@ if __name__ == '__main__':
         ax.set_ylabel('Time (s)')
         ax.set_title('CMP Stack before Multiple Suppression')
 
-        fig.savefig('figures/stack_after_nmo_mute_1900.png', dpi=300)
+        fig.savefig('figures/stack_after_nmo_mute_1900.png')

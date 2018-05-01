@@ -15,7 +15,7 @@ if __name__ == '__main__':
     #
     # fig.savefig('figures/stack_after_nmo_mute_1900.png', dpi=300)
 
-    mode = 'multiples'
+    mode = 'primaries'
     fname_dict = {'multiples': 'multiples_suppressed', 'primaries': 'modeled_primaries'}
     title_dict = {'multiples': 'Multiples Suppressed', 'primaries': 'Modeled Primaries'}
 
@@ -43,4 +43,4 @@ if __name__ == '__main__':
     ax.set_ylabel('Time (s)')
     ax.set_title('CMP Stack with {}'.format(title_dict[mode].title()))
 
-    fig.savefig('figures/{}_stack_1900.png'.format(fname_dict[mode]), dpi=300)
+    fig.savefig('figures/{}_stack_1900.png'.format(fname_dict[mode]))

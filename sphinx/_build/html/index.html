@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to CMP Stack’s documentation! &mdash; CMP Stack April 2018 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> CMP Stack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to CMP Stack’s documentation!</a><ul>
+<li><a class="reference internal" href="#module-cmp_stack.mute_gain">Mute and Gain</a></li>
+<li><a class="reference internal" href="#module-cmp_stack.nmo">Normal Moveout</a></li>
+<li><a class="reference internal" href="#module-cmp_stack.radon_transform">Radon Transform</a></li>
+<li><a class="reference internal" href="#module-cmp_stack.cmp_stack">CMP Stack</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">CMP Stack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to CMP Stack’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-cmp-stack-s-documentation">
+<h1>Welcome to CMP Stack’s documentation!<a class="headerlink" href="#welcome-to-cmp-stack-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p><a href="#id1"><span class="problematic" id="id2">|</span></a>Li Ren, Mengli Zhang, and Georgia Stuart
+<a href="#id3"><span class="problematic" id="id4">|</span></a>Exploration Seismology with David Lumley
+<a href="#id5"><span class="problematic" id="id6">|</span></a>Spring 2018</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-cmp_stack.mute_gain">
+<span id="mute-and-gain"></span><h2>Mute and Gain<a class="headerlink" href="#module-cmp_stack.mute_gain" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cmp_stack.mute_gain.Mute">
+<em class="property">class </em><code class="descclassname">cmp_stack.mute_gain.</code><code class="descname">Mute</code><span class="sig-paren">(</span><em>config</em>, <em>mute_type='spline'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/mute_gain.html#Mute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.mute_gain.Mute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a mute to apply to CMP gathers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>config</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Config dictionary as specified in generate_config.py</p>
+</dd>
+<dt><strong>mute_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Whether to use a spline interpolation mute or a hyperbola mute. Options: ‘hyperbola’, ‘spline’ (default)</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cmp_stack.mute_gain.gain">
+<code class="descclassname">cmp_stack.mute_gain.</code><code class="descname">gain</code><span class="sig-paren">(</span><em>data</em>, <em>config</em>, <em>gain_power=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/mute_gain.html#gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.mute_gain.gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gains data with a <span class="math notranslate nohighlight">\(t^{p}\)</span> gain function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Numpy array</span></dt>
+<dd><p class="first last">CMP Gather to gain</p>
+</dd>
+<dt><strong>config</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Config dictionary as specified in generate_config.py</p>
+</dd>
+<dt><strong>gain_power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">power, <span class="math notranslate nohighlight">\(p\)</span>, to raise time to for the gain</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-cmp_stack.nmo">
+<span id="normal-moveout"></span><h2>Normal Moveout<a class="headerlink" href="#module-cmp_stack.nmo" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cmp_stack.nmo.NormalMoveOut">
+<em class="property">class </em><code class="descclassname">cmp_stack.nmo.</code><code class="descname">NormalMoveOut</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/nmo.html#NormalMoveOut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.nmo.NormalMoveOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves as both an object to run normal move out
+and a nmo_params_t struct as specified in cmp_c_library/library.h</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>config</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Config dictionary as specified in generate_config.py</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a NormalMoveOut object</p>
+<dl class="attribute">
+<dt id="cmp_stack.nmo.NormalMoveOut.data_nmo">
+<code class="descname">data_nmo</code><a class="headerlink" href="#cmp_stack.nmo.NormalMoveOut.data_nmo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshapes the flat NMO data</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-cmp_stack.radon_transform">
+<span id="radon-transform"></span><h2>Radon Transform<a class="headerlink" href="#module-cmp_stack.radon_transform" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cmp_stack.radon_transform.RadonTransform">
+<em class="property">class </em><code class="descclassname">cmp_stack.radon_transform.</code><code class="descname">RadonTransform</code><span class="sig-paren">(</span><em>config</em>, <em>mode='all'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/radon_transform.html#RadonTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.radon_transform.RadonTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves as both an object to run the radon transform and inverse radon transform
+and a radon_params_t struct as specified in cmp_c_library/library.h</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>config</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Config dictionary as specified in generate_config.py</p>
+</dd>
+<dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Whether to apply the transform to the whole domain, multiples, or primaries (‘all’, ‘multiples’, ‘primaries).
+Multiples are defined as the region of the radon domain to the right of p_cutoff. Primaries are defined as
+the region of the radon domain to the left of p_cutoff.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a RadonTransform object</p>
+<dl class="method">
+<dt id="cmp_stack.radon_transform.RadonTransform.inverse_radon_transform">
+<code class="descname">inverse_radon_transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/radon_transform.html#RadonTransform.inverse_radon_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.radon_transform.RadonTransform.inverse_radon_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverts self.radon_transform_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Numpy array</span></dt>
+<dd><p class="first last">The pre-Radon transform data, for computing the scale factor</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cmp_stack.radon_transform.RadonTransform.radon_domain_out">
+<code class="descname">radon_domain_out</code><a class="headerlink" href="#cmp_stack.radon_transform.RadonTransform.radon_domain_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Property. Reshapes the flat Radon Transform Out array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cmp_stack.radon_transform.RadonTransform.radon_transform">
+<code class="descname">radon_transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/radon_transform.html#RadonTransform.radon_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.radon_transform.RadonTransform.radon_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the radon transform over the p range specified in init</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Numpy array</span></dt>
+<dd><p class="first last">CMP gather (after NMO) to apply normal move out to</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-cmp_stack.cmp_stack">
+<span id="cmp-stack"></span><h2>CMP Stack<a class="headerlink" href="#module-cmp_stack.cmp_stack" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="cmp_stack.cmp_stack.cmp_stack">
+<code class="descclassname">cmp_stack.cmp_stack.</code><code class="descname">cmp_stack</code><span class="sig-paren">(</span><em>data</em>, <em>config</em>, <em>velocity</em>, <em>mode='multiples'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/cmp_stack.html#cmp_stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.cmp_stack.cmp_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a CMP  Stack Section.
+1. Compute Normal Move Out for each gather using the velocity profiles provided
+2. Mutes the data via spline interpolation with a cosine taper
+3. Models either primaries or multiples with a Radon transform
+4. Mute the data via spline interpolation with no taper
+5. Stacks the treated data into a stack section</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Numpy array</span></dt>
+<dd><p class="first last">An array of CMP gathers with axes (time, offset, gather).
+Assumes the direct wave has already been muted</p>
+</dd>
+<dt><strong>config</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Config dictionary as specified in generate_config.py</p>
+</dd>
+<dt><strong>velocity</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Numpy array</span></dt>
+<dd><p class="first last">An array of velocity profiles for each CMP gather. Axes are (time, gather)</p>
+</dd>
+<dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Whether to generate the CMP stack by modeling multiples and subtracting (‘multiples’) or
+by modeling primary reflections (‘primaries’)</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cmp_stack.cmp_stack.stack">
+<code class="descclassname">cmp_stack.cmp_stack.</code><code class="descname">stack</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cmp_stack/cmp_stack.html#stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cmp_stack.cmp_stack.stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stacks a treated CMP gather</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Numpy array</span></dt>
+<dd><p class="first last">A post-treatment CMP gather with axis 0 time and axis 1 offset</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Georgia Stuart, Mengli Zhang, Li Ren.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'April 2018',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import numpy as np
 
 def stack(data):
     """ Stacks a treated CMP gather
+
     Parameters
     ----------
     data : Numpy array

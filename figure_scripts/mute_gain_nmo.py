@@ -48,7 +48,7 @@ if __name__ == '__main__':
     ax3.pcolormesh(muted_data, vmin=-400, vmax=400, cmap='gray')
     ax3.set_xlabel('Offset (m)')
 
-    fig.savefig('figures/second_mute.png', dpi=300)
+    fig.savefig('figures/second_mute.png')
 
     rt = RadonTransform(config, mode='all')
     rt(muted_data)
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     ax3.set_title('Primaries in the Radon Domain')
     ax3.set_xlabel('P (1.0e-6)')
 
-    fig.savefig('figures/radon_domain.png', dpi=300)
+    fig.savefig('figures/radon_domain.png')
 
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, sharex=True, sharey=True, figsize=(15, 8))
 
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     ax4.set_title('Modeled Multiples')
     ax4.set_xlabel('Offset (m)')
 
-    fig.savefig('figures/radon_inverted.png', dpi=300)
+    fig.savefig('figures/radon_inverted.png')
 
     diff = muted_data - mult_inverted
     mute.__call__(diff, taper=False)
@@ -135,4 +135,4 @@ if __name__ == '__main__':
     ax3.set_xlabel('Offset (m)')
 
 
-    fig.savefig('figures/third_mute.png', dpi=300)
+    fig.savefig('figures/third_mute.png')
